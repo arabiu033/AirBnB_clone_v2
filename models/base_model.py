@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ Base Model Module """
+from models import storage
 from datetime import datetime
 from uuid import uuid4
 
@@ -17,6 +18,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
         else:
             self.__dict__ = kwargs
             del self.__dict__["__class__"]
@@ -34,7 +36,8 @@ class BaseModel:
         """
         updates the public instance attribute updated_at with the current datetime
         """
-        updated_at = datetime.now()
+        self.updated_at = datetime.now().isoformat()
+        storage.save()
 
     def to_dict(self):
         """
