@@ -9,13 +9,19 @@ class BaseModel:
     parent class to take care of the initialization,
     serialization and deserialization of your future instances
     """
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Initialize instances attributes
         """
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if len(kwargs) == 0:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+        else:
+            self.__dict__ = kwargs
+            del self.__dict__["__class__"]
+            self.__dict__["created_at"] = datetime.fromisoformat(kwargs["created_at"])
+            self.__dict__["updated_at"] = datetime.fromisoformat(kwargs["updated_at"])
 
     def __str__(self):
         """
