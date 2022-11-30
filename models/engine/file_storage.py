@@ -42,8 +42,9 @@ class FileStorage:
         """
         try:
             with open(FileStorage.__file_path, "r", encoding="utf-8") as fil:
-                copy  = json.load(fil)
+                copy = json.load(fil)
             for k in copy.keys():
-                copy[k] = BaseModel(**copy[k])
-        except Exception:
+                copy[k] = BaseModel(**(copy[k]))
+            FileStorage.__objects = copy
+        except FileNotFoundError:
             pass
