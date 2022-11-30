@@ -18,7 +18,8 @@ class HBNBCommand(cmd.Cmd):
         """
         if line == "BaseModel":
             obj_instance = BaseModel()
-            onj_instance.save()
+            obj_instance.save()
+            print(obj_instance.id)
         elif len(line) == 0:
             print("** class name missing **")
         else:
@@ -39,7 +40,7 @@ class HBNBCommand(cmd.Cmd):
         elif key[0] != "BaseModel":
             print("** class doesn't exist **")
         else:
-            all_obj = strorage.all()
+            all_obj = storage.all()
             try:
                 obj = all_obj[".".join(key)]
                 print(obj)
@@ -94,18 +95,18 @@ class HBNBCommand(cmd.Cmd):
         key = line.split(" ")
         if key[0] != "BaseModel":
             print("** class doesn't exist **")
-        elif len(key) == 1::
+        elif len(key) == 1:
             print("** instance id missing **")
         else:
-            all_obj = strorage.all()
+            all_obj = storage.all()
             try:
-                obj = all_obj[".".join(key)]
+                obj = all_obj[".".join([key[0], key[1]])]
                 if len(key) == 2:
                     print("** attribute name missing **")
                 elif len(key) == 3:
                     print("** value missing **")
                 else:
-                    obj[key[3]] = key[4]
+                    obj[key[2]] = key[3][:]
                     instance = BaseModel(**obj)
                     instance.save()
             except KeyError:
@@ -113,16 +114,15 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, line):
         """
-        e        exit the program
+        exit the program
         """
-        key = line.split(" ", maxsplit=1)
-        print(".".join(key))
         return True
 
     def do_EOF(self, line):
         """
         exit the program
         """
+        print()
         return True
 
     def help_quit(self):
