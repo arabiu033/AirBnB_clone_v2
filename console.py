@@ -3,6 +3,11 @@
 import cmd
 from models.base_model import BaseModel
 from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 from models import storage
 
 
@@ -11,7 +16,8 @@ class HBNBCommand(cmd.Cmd):
     contains the entry point of the command interpreter
     """
     prompt = "(hbnb) "
-    __classes = { "BaseModel": BaseModel, "User": User}
+    __classes = { "BaseModel": BaseModel, "User": User, "Place": Place,
+                  "State": State, "City": City, "Amenity": Amenity, "Rview": Review }
 
     def do_create(self, line):
         """
