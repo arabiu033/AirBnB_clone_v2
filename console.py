@@ -2,6 +2,7 @@
 """ Concole Module """
 import cmd
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
 
@@ -10,14 +11,15 @@ class HBNBCommand(cmd.Cmd):
     contains the entry point of the command interpreter
     """
     prompt = "(hbnb) "
+    __classes = { "BaseModel": BaseModel, "User": User}
 
     def do_create(self, line):
         """
          Creates a new instance of BaseModel,
         saves it (to the JSON file) and prints the id
         """
-        if line == "BaseModel":
-            obj_instance = BaseModel()
+        if line in HBNBCommand.__classes:
+            obj_instance = HBNBCommand.__classes[line]()
             obj_instance.save()
             print(obj_instance.id)
         elif len(line) == 0:
@@ -37,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
         key = line.split(" ", maxsplit=1)
         if len(key) < 2:
             print("** instance id missing **")
-        elif key[0] != "BaseModel":
+        elif key[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
             all_obj = storage.all()
@@ -59,7 +61,7 @@ class HBNBCommand(cmd.Cmd):
         key = line.split(" ", maxsplit=1)
         if len(key) < 2:
             print("** instance id missing **")
-        elif key[0] != "BaseModel":
+        elif key[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
             all_obj = storage.all()
@@ -74,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
         Prints all string representation of all instances
         based or not on the class name. Ex: $ all BaseModel or $ all
         """
-        if len(line) != 0 and  line != "BaseModel":
+        if len(line) != 0 and  line not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
             lis = []
@@ -93,7 +95,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         key = line.split(" ")
-        if key[0] != "BaseModel":
+        if key[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         elif len(key) == 1:
             print("** instance id missing **")

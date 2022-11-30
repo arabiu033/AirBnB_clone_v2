@@ -2,6 +2,7 @@
 """ File Storage Module """
 import json
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -11,6 +12,7 @@ class FileStorage:
     """
     __file_path = "file.json"
     __objects = {}
+    __classes = { "BaseModel": BaseModel, "User": User }
 
     def all(self):
         """
@@ -44,7 +46,8 @@ class FileStorage:
             with open(FileStorage.__file_path, "r", encoding="utf-8") as fil:
                 copy = json.load(fil)
             for k in copy.keys():
-                copy[k] = BaseModel(**(copy[k]))
+                v = k.split(".")
+                copy[k] = FileStorage.__classes[v[0]](**(copy[k]))
             FileStorage.__objects = copy
         except FileNotFoundError:
             pass
