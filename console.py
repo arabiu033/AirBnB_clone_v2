@@ -68,6 +68,20 @@ class HBNBCommand(cmd.Cmd):
             except KeyError:
                 print("** no instance found **")
 
+    def do_all(self, line):
+        """
+        Prints all string representation of all instances
+        based or not on the class name. Ex: $ all BaseModel or $ all
+        """
+        if line != "BaseModel":
+            print("** class doesn't exist **")
+        else:
+            lis = []
+            all_objs = storage.all()
+            for key in all_objs.keys():
+                lis.append(str(all_objs[key]))
+            print(lis)
+
     def do_quit(self, line):
         """
         exit the program
