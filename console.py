@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
         Prints all string representation of all instances
         based or not on the class name. Ex: $ all BaseModel or $ all
         """
-        if line != "BaseModel":
+        if len(line) != 0 and  line != "BaseModel":
             print("** class doesn't exist **")
         else:
             lis = []
@@ -82,9 +82,38 @@ class HBNBCommand(cmd.Cmd):
                 lis.append(str(all_objs[key]))
             print(lis)
 
+    def do_update(self, line):
+        """
+        Updates an instance based on the class name and id by adding
+        or updating attribute (save the change into the JSON file).
+        Ex: $ update BaseModel 1234-1234-1234 email "aibnb@mail.com"
+        """
+        if len(line) == 0:
+            print("** class name missing **")
+            return
+        key = line.split(" ")
+        if key[0] != "BaseModel":
+            print("** class doesn't exist **")
+        elif len(key) == 1::
+            print("** instance id missing **")
+        else:
+            all_obj = strorage.all()
+            try:
+                obj = all_obj[".".join(key)]
+                if len(key) == 2:
+                    print("** attribute name missing **")
+                elif len(key) == 3:
+                    print("** value missing **")
+                else:
+                    obj[key[3]] = key[4]
+                    instance = BaseModel(**obj)
+                    instance.save()
+            except KeyError:
+                print("** no instance found **")
+
     def do_quit(self, line):
         """
-        exit the program
+        e        exit the program
         """
         key = line.split(" ", maxsplit=1)
         print(".".join(key))
