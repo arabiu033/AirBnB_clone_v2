@@ -62,7 +62,7 @@ class HBNBCommand(cmd.Cmd):
         elif key[0] != "BaseModel":
             print("** class doesn't exist **")
         else:
-            all_obj = strorage.all()
+            all_obj = storage.all()
             try:
                 del all_obj[".".join(key)]
                 storage.save()
@@ -80,7 +80,7 @@ class HBNBCommand(cmd.Cmd):
             lis = []
             all_objs = storage.all()
             for key in all_objs.keys():
-                lis.append(str(all_objs[key]))
+                lis.append(all_objs[key].__str__())
             print(lis)
 
     def do_update(self, line):
@@ -106,9 +106,13 @@ class HBNBCommand(cmd.Cmd):
                 elif len(key) == 3:
                     print("** value missing **")
                 else:
-                    obj[key[2]] = key[3][:]
-                    instance = BaseModel(**obj)
-                    instance.save()
+                    if key[3][:1] == '"':
+                        value = key[3][1:-1]
+                    else:
+                        value = key[3]
+                    obj.__dict__[key[2]] = value
+                    storage.new(obj)
+                    obj.save()
             except KeyError:
                 print("** no instance found **")
 
