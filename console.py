@@ -19,6 +19,14 @@ class HBNBCommand(cmd.Cmd):
     __classes = { "BaseModel": BaseModel, "User": User, "Place": Place,
                   "State": State, "City": City, "Amenity": Amenity, "Rview": Review }
 
+    def default(self, line):
+        """
+        Commands not undertsand by the consoles
+        """
+        key = line.split(".")
+        if key[1] == "all()":
+            self.do_all(key[0])
+
     def do_create(self, line):
         """
          Creates a new instance of BaseModel,
