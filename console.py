@@ -27,15 +27,18 @@ class HBNBCommand(cmd.Cmd):
         key = line.split(".")
         if len(line) == 1:
             return
-
-        if ".show" in line:
+        elif "{" and "}" and "update" in line:
+            key = line.split(".update")
+            s_key = key[1][1:-1].split('", ', maxsplit=1)
+            dictionary = dict(eval(s_key[1]))
+            for k in dictionary.keys():
+                self.do_update(" ".join([key[0], s_key[0][1:], k, str(dictionary[k])]))
+        elif ".show" in line:
             key = line.split(".show")
             self.do_show(" ".join([key[0], key[1][2:-2]]))
-            return
         elif ".destroy" in line:
             key = line.split(".destroy")
             self.do_destroy(" ".join([key[0], key[1][2:-2]]))
-            return
         elif ".update" in line:
             key = line.split(".update")
             s_key = key[1][1:-1].split(", ")
@@ -45,13 +48,12 @@ class HBNBCommand(cmd.Cmd):
                 self.do_update(" ".join([key[0], s_key[0][1:-1], s_key[1][1:-1]]))
             else:
                 self.do_update(" ".join([key[0], s_key[0][1:-1], s_key[1][1:-1], s_key[2]]))
-            return
-
-        if key[1] == "all()":
-            self.do_all(key[0])
-        elif key[1] == "count()":
-            HBNBCommand.__signal = 1
-            print(self.do_all(key[0]))
+        else:
+            if key[1] == "all()":
+                self.do_all(key[0])
+            elif key[1] == "count()":
+                HBNBCommand.__signal = 1
+                print(self.do_all(key[0]))
 
     def do_create(self, line):
         """
