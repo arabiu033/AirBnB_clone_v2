@@ -38,6 +38,17 @@ class HBNBCommand(cmd.Cmd):
             self.do_destroy(" ".join([key[0], key[1][2:-2]]))
             return
 
+        if ".update" in line:
+            key = line.split(".update")
+            s_key = key[1][1:-1].split(", ")
+            if len(s_key) == 1:
+                self.do_update(" ".join([key[0], s_key[0][1:-1]]))
+            elif len(s_key) == 2:
+                self.do_update(" ".join([key[0], s_key[0][1:-1], s_key[1][1:-1]]))
+            else:
+                self.do_update(" ".join([key[0], s_key[0][1:-1], s_key[1][1:-1], s_key[2]]))
+            return
+
         if key[1] == "all()":
             self.do_all(key[0])
         elif key[1] == "count()":
