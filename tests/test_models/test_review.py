@@ -2,7 +2,6 @@
 """
 Contains the TestReviewDocs classes
 """
-
 from datetime import datetime
 import inspect
 from models import review

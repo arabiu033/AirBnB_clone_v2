@@ -172,9 +172,16 @@ class HBNBCommand(cmd.Cmd):
         elif "{" and "}" and "update" in line:
             key = line.split(".update")
             s_key = key[1][1:-1].split('", ', maxsplit=1)
-            dictionary = dict(eval(s_key[1]))
-            for k in dictionary.keys():
-                self.do_update(" ".join([key[0], s_key[0][1:], k, str(dictionary[k])]))
+            if len(s_key) > 1:
+                dictionary = dict(eval(s_key[1]))
+                for k in dictionary.keys():
+                    if '"' in s_key[0]:
+                        id = s_key[0][1:]
+                    else:
+                        id = s_key[0]
+                    self.do_update(" ".join([key[0], s_key[0][1:], k, str(dictionary[k])]))
+            else:
+                self.do_update(" ".join([key[0], s_key[0][1:]]))
         elif ".show" in line:
             key = line.split(".show")
             self.do_show(" ".join([key[0], key[1][2:-2]]))
