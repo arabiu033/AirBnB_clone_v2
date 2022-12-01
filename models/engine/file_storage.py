@@ -18,7 +18,7 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
     __classes = { "BaseModel": BaseModel, "User": User, "Place": Place,
-                  "State": State, "City": City, "Amenity": Amenity, "Rview": Review }
+                  "State": State, "City": City, "Amenity": Amenity, "Review": Review }
 
     def all(self):
         """

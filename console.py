@@ -18,7 +18,7 @@ class HBNBCommand(cmd.Cmd):
     __signal = 0
     prompt = "(hbnb) "
     __classes = { "BaseModel": BaseModel, "User": User, "Place": Place,
-                  "State": State, "City": City, "Amenity": Amenity, "Rview": Review }
+                  "State": State, "City": City, "Amenity": Amenity, "Review": Review }
 
     def do_create(self, line):
         """
@@ -124,10 +124,13 @@ class HBNBCommand(cmd.Cmd):
                 elif len(key) == 3:
                     print("** value missing **")
                 else:
-                    if key[3][:1] == '"':
-                        value = key[3][1:-1]
-                    else:
-                        value = key[3]
+                    try:
+                        value = int(key[3])
+                    except ValueError:
+                        if '"' in key[3]:
+                            value = key[3][1:-1]
+                        else:
+                            value = key[3]
                     obj.__dict__[key[2]] = value
                     storage.new(obj)
                     obj.save()
