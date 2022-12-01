@@ -32,13 +32,11 @@ class HBNBCommand(cmd.Cmd):
             key = line.split(".show")
             self.do_show(" ".join([key[0], key[1][2:-2]]))
             return
-
-        if ".destroy" in line:
+        elif ".destroy" in line:
             key = line.split(".destroy")
             self.do_destroy(" ".join([key[0], key[1][2:-2]]))
             return
-
-        if ".update" in line:
+        elif ".update" in line:
             key = line.split(".update")
             s_key = key[1][1:-1].split(", ")
             if len(s_key) == 1:
