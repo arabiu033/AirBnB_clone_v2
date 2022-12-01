@@ -25,7 +25,7 @@ class HBNBCommand(cmd.Cmd):
         Commands not undertsand by the consoles
         """
         key = line.split(".")
-        if len(line) == 1:
+        if len(key) == 1:
             return
         elif "{" and "}" and "update" in line:
             key = line.split(".update")
