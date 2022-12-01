@@ -30,7 +30,12 @@ class HBNBCommand(cmd.Cmd):
 
         if ".show" in line:
             key = line.split(".show")
-            self.do_show(" ".join([key[0], key[1][1:-1]]))
+            self.do_show(" ".join([key[0], key[1][2:-2]]))
+            return
+
+        if ".destroy" in line:
+            key = line.split(".destroy")
+            self.do_destroy(" ".join([key[0], key[1][2:-2]]))
             return
 
         if key[1] == "all()":
