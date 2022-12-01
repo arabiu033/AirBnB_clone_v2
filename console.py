@@ -15,6 +15,7 @@ class HBNBCommand(cmd.Cmd):
     """
     contains the entry point of the command interpreter
     """
+    __signal = 0
     prompt = "(hbnb) "
     __classes = { "BaseModel": BaseModel, "User": User, "Place": Place,
                   "State": State, "City": City, "Amenity": Amenity, "Rview": Review }
@@ -24,8 +25,14 @@ class HBNBCommand(cmd.Cmd):
         Commands not undertsand by the consoles
         """
         key = line.split(".")
+        if len(key) == 1:
+            return
+
         if key[1] == "all()":
             self.do_all(key[0])
+        elif key[1] == "count()":
+            HBNBCommand.__signal = 1
+            print(self.do_all(key[0]))
 
     def do_create(self, line):
         """
@@ -100,7 +107,10 @@ class HBNBCommand(cmd.Cmd):
                 if line == all_objs[key].__class__.__name__:
                     ins.append(all_objs[key].__str__())
                 lis.append(all_objs[key].__str__())
-            if len(line) == 0:
+            if HBNBCommand.__signal == 1:
+                HBNBCommand.__signal = 0
+                return len(ins)
+            elif len(line) == 0:
                 print(lis)
             else:
                 print(ins)
