@@ -86,10 +86,16 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         else:
             lis = []
+            ins = []
             all_objs = storage.all()
             for key in all_objs.keys():
+                if line == all_objs[key].__class__.__name__:
+                    ins.append(all_objs[key].__str__())
                 lis.append(all_objs[key].__str__())
-            print(lis)
+            if len(line) == 0:
+                print(lis)
+            else:
+                print(ins)
 
     def do_update(self, line):
         """
