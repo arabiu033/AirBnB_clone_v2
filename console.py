@@ -25,7 +25,12 @@ class HBNBCommand(cmd.Cmd):
         Commands not undertsand by the consoles
         """
         key = line.split(".")
-        if len(key) == 1:
+        if len(line) == 1:
+            return
+
+        if ".show" in line:
+            key = line.split(".show")
+            self.do_show(" ".join([key[0], key[1][1:-1]]))
             return
 
         if key[1] == "all()":
