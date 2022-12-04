@@ -44,11 +44,14 @@
   font-size: 14px;
 }
 
+.locations {
+  border-right: 1px solid #ddd;
+}
+
 .locations,
 .amenities {
   position: relative;
 	display: inline-table;
-  border-right: 1px solid #ddd;
 }
 
 .locations::after,
