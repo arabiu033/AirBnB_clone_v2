@@ -67,28 +67,25 @@ article h2 {
   align-items: center;
 }
 
-.max_guest > div {
-  width: 100%;
-  height: 80%;
-  background-image: url(../images/icon_group.png);
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-.number_rooms > div {
-  width: 100%;
-  height: 80%;
-  background-image: url(../images/icon_bed.png);
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
+.max_guest > div,
+.number_rooms > div,
 .number_bathrooms > div {
   width: 100%;
   height: 80%;
-  background-image: url(../images/icon_bath.png);
   background-position: center center;
   background-repeat: no-repeat;
+}
+
+.max_guest > div {
+  background-image: url(../images/icon_group.png);
+}
+
+.number_rooms > div {
+  background-image: url(../images/icon_bed.png);
+}
+
+.number_bathrooms > div {
+  background-image: url(../images/icon_bath.png);
 }
 
 .max_guest p,
