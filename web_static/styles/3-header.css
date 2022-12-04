@@ -6,13 +6,7 @@ header {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-}
-
-header div {
-  width: 150px;
-  height: 100%;
   background-image: url(../images/logo.png);
-  background-position: left center;
+  background-position: 20px center;
   background-repeat: no-repeat;
-  margin-left: 20px;
 }
