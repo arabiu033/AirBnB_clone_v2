@@ -1,8 +1,8 @@
 #!/usr/bin/python3
-"""Fabric script based on the file 1-pack_web_static.py that distributes an
-archive to my servers using the function do_deploy.
 """
-
+Fabric script based on the file 2-do_deploy_web_static.py that creates and
+distributes an archive to the web servers
+"""
 from fabric.context_managers import cd, hide,\
         settings, show, path, prefix, lcd, quiet, warn_only,\
         remote_tunnel, shell_env
@@ -15,7 +15,6 @@ from fabric.utils import abort, warn, puts, fastprint
 from fabric.tasks import execute
 from datetime import datetime
 import os
-
 
 env.hosts = ['54.173.182.190', '54.162.77.61']
 env.user = "ubuntu"
@@ -50,14 +49,21 @@ def do_deploy(archive_path):
         folder = '/data/web_static/releases/{}/'.format(no_tgz_name)
         put(archive_path, '/tmp/')
         run('mkdir -p {}'.format(folder))
-        run('tar -xzf /tmp/{} -C {}'.format(full_filename, folder))
+        run('tar -xzf /tmp/{} -C {}/'.format(full_filename, folder))
         run('rm /tmp/{}'.format(full_filename))
-        run('mv {}web_static/* {}'.format(folder, folder))
-        run('rm -rf {}web_static'.format(folder))
+        run('mv {}/web_static/* {}'.format(folder, folder))
+        run('rm -rf {}/web_static'.format(folder))
         current = '/data/web_static/current'
         run('rm -rf {}'.format(current))
-        run('ln -s {} {}'.format(folder, current))
-        print("New version deployed!")
+        run('ln -s {}/ {}'.format(folder, current))
         return True
     except Exception:
         return False
+
+
+def deploy():
+    """creates and distributes an archive to the web servers"""
+    archive_path = do_pack()
+    if archive_path is None:
+        return False
+    return do_deploy(archive_path)
