@@ -9,6 +9,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 from models import storage
+from datetime import datetime
 
 
 class HBNBCommand(cmd.Cmd):
@@ -25,13 +26,34 @@ class HBNBCommand(cmd.Cmd):
          Creates a new instance of BaseModel,
         saves it (to the JSON file) and prints the id
         """
-        if line in HBNBCommand.__classes:
-            obj_instance = HBNBCommand.__classes[line]()
-            obj_instance.save()
-            print(obj_instance.id)
-        elif len(line) == 0:
+        try:
+            if not line:
+                raise SyntaxError()
+            list = line.split(' ')
+
+            kwargs = {}
+            for i in range(1, len(list)):
+                k, v = tuple(list[i].split('='))
+                if v[0] == '"':
+                    v = v.strip('"').replace('_', ' ')
+                else:
+                    try:
+                        v = eval(v)
+                    except (SyntaxError, NameError):
+                        continue
+                kwargs[k] = v
+            if kwargs == {}:
+                obj = HBNBCommand.__classes[list[0]]()
+            else:
+                kwargs["created_at"] = datetime.now()
+                kwargs["updated_at"] = datetime.now()
+                obj = HBNBCommand.__classes[list[0]](**kwargs)
+                storage.new(obj)
+            print(obj.id)
+            obj.save()
+        except SyntaxError:
             print("** class name missing **")
-        else:
+        except NameError:
             print("** class doesn't exist **")
 
     def do_show(self, line):

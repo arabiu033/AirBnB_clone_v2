@@ -23,8 +23,10 @@ class BaseModel:
             self.__dict__ = kwargs
             if "__class__" in self.__dict__:
                 del self.__dict__["__class__"]
-            self.__dict__["created_at"] = datetime.fromisoformat(kwargs["created_at"])
-            self.__dict__["updated_at"] = datetime.fromisoformat(kwargs["updated_at"])
+            if not "id" in self.__dict__:
+                self.__dict__["id"] = str(uuid4())
+            self.__dict__["created_at"] = datetime.fromisoformat(str(kwargs["created_at"]))
+            self.__dict__["updated_at"] = datetime.fromisoformat(str(kwargs["updated_at"]))
 
     def __str__(self):
         """
