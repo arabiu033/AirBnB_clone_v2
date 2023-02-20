@@ -20,10 +20,19 @@ class FileStorage:
     __classes = { "BaseModel": BaseModel, "User": User, "Place": Place,
                   "State": State, "City": City, "Amenity": Amenity, "Review": Review }
 
-    def all(self):
+    def all(self, cls=None):
         """
         returns the dictionary __objects
         """
+        if cls is not None:
+            if cls in  FileStorage.__classes:
+                cls = FileStorage.__classes[cls]
+            objs = {}
+            for key, val in self.__objects.items():
+                if type(val) == cls:
+                    objs[key] = val
+            return objs
+            
         return FileStorage.__objects
 
     def new(self, obj):
@@ -56,4 +65,14 @@ class FileStorage:
                 copy[k] = FileStorage.__classes[v[0]](**(copy[k]))
             FileStorage.__objects = copy
         except FileNotFoundError:
+            pass
+    
+    def delete(self, obj=None):
+        """
+        Delete an object from the list of objects if it exists
+        """
+        try:
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            del FileStorage.__objects[key]
+        except:
             pass
