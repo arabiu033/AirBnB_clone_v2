@@ -28,7 +28,7 @@ class Place(BaseModel, Base):
     latitude = Column(Float)
     longitude = Column(Float)
     amenity_ids = relationship('Amenity', secondary='place_amenity',
-                               viewonly=False, overlaps="amenities,place_amenities")
+                               viewonly=False)
 
     place_amenity = Table('place_amenity', metadata,
                           Column('place_id',
