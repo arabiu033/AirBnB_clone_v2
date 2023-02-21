@@ -15,5 +15,4 @@ class Amenity(BaseModel, Base):
     place_amenities = relationship('Place',
                                    secondary='place_amenity',
                                    backref='amenities',
-                                   overlaps="amenities,place_amenities",
                                    cascade='delete')
