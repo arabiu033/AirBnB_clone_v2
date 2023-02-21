@@ -2,6 +2,8 @@
 """
 Starts a Flask web application.
 The application listens on 0.0.0.0, port 5000.
+Routes:
+/states_list: HTML page with a list of all State objects in DBStorage.
 """
 from flask import Flask, render_template
 from models import storage
@@ -10,9 +12,10 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 
+
 @app.teardown_appcontext
 def close_db(exc):
-    """close the current session of sqlalchemist"""
+    """ close the current session of sqlalchemist """
     storage.close()
 
 
