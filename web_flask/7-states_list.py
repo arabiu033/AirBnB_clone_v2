@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-""" Starts a Flask web application """
+"""
+Starts a Flask web application 
+"""
 
 from flask import Flask, render_template
 from models import storage
@@ -11,7 +13,9 @@ app.url_map.strict_slashes = False
 
 @app.teardown_appcontext
 def close_db(exc):
-    """ close the current session of sqlalchemist """
+    """ 
+    close the current session of sqlalchemist
+    """
     storage.close()
 
 
