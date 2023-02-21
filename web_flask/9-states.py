@@ -8,7 +8,6 @@ Routes:
 from models import storage
 from flask import Flask
 from flask import render_template
-from sqlalchemy.sql import text
 
 app = Flask(__name__)
 
@@ -18,7 +17,7 @@ def states():
     """Displays an HTML page with a list of all States.
     States are sorted by name.
     """
-    states = storage.all(text("State"))
+    states = storage.all("State")
     return render_template("9-states.html", state=states)
 
 
@@ -38,4 +37,4 @@ def teardown(exc):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", debug=True)
