@@ -28,7 +28,7 @@ class FileStorage:
             if cls in  FileStorage.__classes:
                 cls = FileStorage.__classes[cls]
             objs = {}
-            for key, val in self.__objects.items():
+            for key, val in FileStorage.__objects.items():
                 if type(val) == cls:
                     objs[key] = val
             return objs
@@ -76,3 +76,7 @@ class FileStorage:
             del FileStorage.__objects[key]
         except:
             pass
+    
+    def close(self):
+        """reload method."""
+        self.reload()

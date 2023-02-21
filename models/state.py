@@ -16,11 +16,11 @@ class State(BaseModel, Base):
     name = Column(String(128), nullable=False)
     cities = relationship('City', backref='state', cascade='delete')
 
-    if ("HBNB_TYPE_STORAGE", None) == None:
-        @property
-        def cities(self):
-            Clist = []
-            for city in list(models.storage.all(City).values()):
-                if city.state_id == self.id:
-                    Clist.append(city)
-            return Clist
+    # if ("HBNB_TYPE_STORAGE", None) == None:
+    @property
+    def cities(self):
+        Clist = []
+        for city in list(models.storage.all(City).values()):
+            if city.state_id == self.id:
+                Clist.append(city)
+        return Clist
